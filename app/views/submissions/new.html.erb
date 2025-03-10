@@ -1,0 +1,17 @@
+<h2>challenge</h2>
+<h1>Hello World</h1>
+
+<%= form_with model: @submission do |form| %>
+  <div>
+    <%= form.label :code %>
+    <%= form.text_area :code, rows: 10, cols: 50 %>
+  </div>
+
+  <div class="p-3 bg-amber-100">
+    <h1>result:</h1>
+  </div>
+
+  <div>
+    <%= form.submit "Submit", class: "btn btn-primary" %>
+  </div>
+<% end %>
