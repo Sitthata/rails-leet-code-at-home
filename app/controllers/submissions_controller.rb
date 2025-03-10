@@ -1,9 +1,12 @@
 require "open3"
 
 class SubmissionsController < ApplicationController
+  def show
+    @submission = Submission.find(params[:id])
+  end
+
   def new
     @submission = Submission.new
-    @result = Submission.last.result
   end
 
   def create
@@ -36,9 +39,9 @@ class SubmissionsController < ApplicationController
 
       if @submission.save
         @result = @submission.result
-        render :new
+        redirect_to @submission, notice: "Submission was successfully created."
       else
-        render :new
+        render :new, status: :unprocessable_entity
       end
 
     rescue => e
