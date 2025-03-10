@@ -1,15 +1,18 @@
 <section class="container mx-auto">
   <h2>challenge</h2>
   <h1 class="text-3xl">Hello World</h1>
+  <%= debug @submission %>
   <%= form_with model: @submission do |form| %>
     <div class="space-y-4">
       <div>
         <%= form.label :code %>
         <%= form.text_area :code, rows: 10, cols: 50, class: "textarea w-full" %>
       </div>
-      <div class="p-3 bg-primary">
-        <h1>result:</h1>
-      </div>
+      <% if @result.present? %>
+        <div class="p-3 bg-primary">
+          <h1>result: <%= @result %></h1>
+        </div>
+      <% end %>
       <div>
         <%= form.submit "Submit", class: "btn btn-primary" %>
       </div>
