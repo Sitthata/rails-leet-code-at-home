@@ -9,7 +9,7 @@ class SubmissionsController < ApplicationController
     @submission = Submission.new
   end
 
-  def create
+  def execute
     @submission = Submission.new(submission_params)
     @submission.status = "pending"
 
@@ -37,25 +37,32 @@ class SubmissionsController < ApplicationController
         @submission.status = "error"
       end
 
-      if @submission.save
-        @result = @submission.result
-        redirect_to @submission, notice: "Submission was successfully created."
-      else
-        render :new, status: :unprocessable_entity
-      end
+      @result = @submission.result
 
+      render "submissions/new"
     rescue => e
       @submission.status = "error"
       @submission.result = e.message
-      render :new
+      @result = @submission.result
+      render "submissions/new"
     ensure
       File.delete(file_path) if File.exist?(file_path)
     end
   end
 
+  def create
+    @submission = Submission.new(submission_params)
+
+    if @submission.save
+      redirect_to @submission, notice: "Submission was successfully saved."
+    else
+      render "submissions/new", status: :unprocessable_entity
+    end
+  end
+
   private
   def submission_params
-    params.require(:submission).permit(:code)
+    params.require(:submission).permit(:code, :status, :result)
   end
 
   def run_commands(command)
