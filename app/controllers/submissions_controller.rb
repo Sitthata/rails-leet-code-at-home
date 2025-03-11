@@ -7,6 +7,9 @@ class SubmissionsController < ApplicationController
 
   def new
     @submission = Submission.new
+    # @result = params[:last_result]
+    @last_submission = Submission.find_by(id: params[:last_id]) if params[:last_id]
+    @result = @last_submission.result if @last_submission
   end
 
   def create
@@ -39,7 +42,7 @@ class SubmissionsController < ApplicationController
 
       if @submission.save
         @result = @submission.result
-        redirect_to @submission, notice: "Submission was successfully created."
+        redirect_to new_submission_path(last_id: @submission.id)
       else
         render :new, status: :unprocessable_entity
       end

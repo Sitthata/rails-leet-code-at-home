@@ -1,8 +1,8 @@
 <section class="container mx-auto">
   <h2>challenge</h2>
   <h1 class="text-3xl">Hello World</h1>
-  <%= debug @submission %>
-  <%= debug @result %>
+  <!-- <%= debug @submission %> -->
+  <!-- <%= debug @result %> -->
   <%= form_with model: @submission do |form| %>
     <div class="space-y-4">
       <div>
@@ -12,6 +12,12 @@
       <div>
         <%= form.submit "Submit", class: "btn btn-primary" %>
       </div>
+    </div>
+  <% end %>
+  <% if @result.present? %>
+    <div class="result-box">
+      <h3>Last Execution Result:</h3>
+      <pre><%= @result %></pre>
     </div>
   <% end %>
 </section>
